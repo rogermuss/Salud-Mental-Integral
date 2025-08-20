@@ -48,7 +48,7 @@ public class Instrumento {
         }
 
         public String toString() {
-            return "Autor: " + autor + " Clave: " + clave + " Tipo: " + tipo + " Nombre: " + tipoCondicion +
-                    " Evaluacion: " + evaluacion + "\n\n";
+            return "Autor: " + autor + "\nClave: " + clave + "\nTipo: " + tipo + "\nCondiciones: " + tipoCondicion +
+                    "\nEvaluacion: " + evaluacion + "\n\n";
         }
 }
