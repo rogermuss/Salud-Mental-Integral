@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
@@ -73,29 +76,34 @@ public class Control {
                    return instrumento.toString();
                }
             }
-            return null;
+            return "";
         }
 
         public String eliminarPorClave(int clave) {
             String cadena = "";
-            instrumentos.removeIf(i -> i.getClave()==clave);
             for(Instrumento instrumento : instrumentos) {
                 if(clave==instrumento.getClave()){
                     cadena = cadena + instrumento.toString();
                 }
             }
+            instrumentos.removeIf(i -> i.getClave()==clave);
             return cadena;
         }
 
-        public ArrayList<Instrumento> ordenarPorClave() {
+        public String ordenarPorClave() {
+            String cadena = "";
             ArrayList<Instrumento> instrumentosOrdenados = instrumentos.stream()
                     .sorted((i1, i2) -> Integer.compare(i1.getClave(), i2.getClave()))
                     .collect(Collectors.toCollection(ArrayList::new)
                     );
-            return instrumentosOrdenados;
+            for(Instrumento instrumento : instrumentosOrdenados) {
+                cadena = cadena + instrumento.toString();
+            }
+            return cadena;
         }
 
-        public ArrayList<Instrumento> ordenarPorPrimerAutor() {
+        public String ordenarPorPrimerAutor() {
+            String cadena = "";
             ArrayList<Instrumento> instrumentosOrdenados = new ArrayList<>();
             for(String autor : autores) {
                 for(Instrumento instrumento : instrumentos) {
@@ -104,7 +112,10 @@ public class Control {
                     }
                 }
             }
-            return instrumentosOrdenados;
+            for(Instrumento instrumento : instrumentosOrdenados) {
+                cadena = cadena + instrumento.toString();
+            }
+            return cadena;
         }
 
         public boolean esClaveValida(int clave) {
@@ -116,7 +127,25 @@ public class Control {
             return false;
         }
 
-    public void setAutores(String autor) {
+        public String guardarEnArchivo() {
+            String archivo = "ArchivoConsultas.txt";
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+                writer.write("Autor,Clave,Tipo,Condicion,Evaluacion");
+                writer.newLine();
+                for(Instrumento i : instrumentos) {
+                    writer.write("Autor: " + i.getAutor() + ", Clave: " + i.getClave() +
+                            ", Tipo: " + i.getTipo() + ", Condiciones: " + i.getTipoCondicion() +
+                            " , Evaluacion: " + i.getEvaluacion());
+                    writer.newLine();
+                }
+                return "Archivo guardado en " + archivo;
+
+            } catch (IOException e) {
+                return "Error al guardar archivo " + archivo;
+            }
+        }
+
+            public void setAutores(String autor) {
             if(!autores.contains(autor)){
                 autores.add(autor);
             }

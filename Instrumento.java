@@ -1,9 +1,9 @@
 public class Instrumento {
-        String autor;
-        int clave;
-        String tipo;
-        String tipoCondicion;
-        boolean evaluacion;
+        private String autor;
+        private int clave;
+        private String tipo;
+    private String tipoCondicion;
+    private boolean evaluacion;
 
 
         public Instrumento(String autor, int clave, String tipo, String tipoCondicion, boolean evaluacion) {
